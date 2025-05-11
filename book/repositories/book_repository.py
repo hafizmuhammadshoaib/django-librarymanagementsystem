@@ -1,6 +1,8 @@
 from book.models.book import Book
+from wireup import service
 
 
+@service
 class BookRepository:
     def __init__(self):
         self.book_model = Book

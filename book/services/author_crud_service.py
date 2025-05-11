@@ -1,6 +1,8 @@
 from book.repositories.author_repository import AuthorRepository
+from wireup import service
 
 
+@service
 class AuthorCRUDService:
     def __init__(self, author_repository: AuthorRepository):
         self.author_repository = author_repository

@@ -5,8 +5,10 @@ from book.services.genre_service import GenreService
 from book.services.publisher_crud_service import PublisherCRUDService
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from wireup import service
 
 
+@service
 class BookCrudService:
     def __init__(
         self,

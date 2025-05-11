@@ -1,6 +1,8 @@
 from book.models.author import Author
+from wireup import service
 
 
+@service
 class AuthorRepository:
     def __init__(self):
         self.author_model = Author

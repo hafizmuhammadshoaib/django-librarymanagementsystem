@@ -1,6 +1,8 @@
 from book.repositories.publisher_repository import PublisherRepository
+from wireup import service
 
 
+@service
 class PublisherCRUDService:
     def __init__(self, publisher_repository: PublisherRepository):
         self.publisher_repository = publisher_repository

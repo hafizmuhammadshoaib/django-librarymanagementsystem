@@ -1,6 +1,8 @@
 from book.models.publisher import Publisher
+from wireup import service
 
 
+@service
 class PublisherRepository:
     def __init__(self):
         self.publisher_model = Publisher
