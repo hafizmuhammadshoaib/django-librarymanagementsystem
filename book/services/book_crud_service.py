@@ -1,18 +1,19 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.forms import ValidationError
-from book.repositories.book_repository import BookRepository
+from wireup import service
+
+from book.repositories.book_repository import BookAbstractRepository
 from book.services.author_crud_service import AuthorCRUDService
 from book.services.genre_service import GenreService
 from book.services.publisher_crud_service import PublisherCRUDService
-from django.core.exceptions import ObjectDoesNotExist
-from django.db import transaction
-from wireup import service
 
 
 @service
 class BookCrudService:
     def __init__(
         self,
-        book_repository: BookRepository,
+        book_repository: BookAbstractRepository,
         genre_service: GenreService,
         author_service: AuthorCRUDService,
         publisher_service: PublisherCRUDService,

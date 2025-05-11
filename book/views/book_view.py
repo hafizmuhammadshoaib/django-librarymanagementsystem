@@ -20,16 +20,6 @@ class BookCreateAndGetView(APIView):
         try:
             book_create_serializer = BookCreateSerializer(data=request.data)
             book_create_serializer.is_valid(raise_exception=True)
-            # Assuming the serializer is valid, we can proceed to create the book
-            # book_repo = BookRepository()
-            # genre_repo = GenreRepository()
-            # author_repo = AuthorRepository()
-            # publisher_repo = PublisherRepository()
-            # genre_service = GenreService(genre_repository=genre_repo)
-            # author_service = AuthorCRUDService(author_repository=author_repo)
-            # publisher_service = PublisherCRUDService(
-            #     publisher_repository=publisher_repo
-            # )
             book_service: BookCrudService = container.get(BookCrudService)
             book_service.create_book(book_create_serializer.validated_data)
         except ValidationError as ve:

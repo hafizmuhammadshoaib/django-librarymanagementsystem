@@ -1,9 +1,17 @@
+from abc import ABC, abstractmethod
 from book.models.author import Author
-from wireup import service
+from wireup import service, abstract
+
+
+@abstract
+class AuthorAbstractRepository(ABC):
+    @abstractmethod
+    def get_author_by_id(self, author_id):
+        raise NotImplementedError("This method should be overridden.")
 
 
 @service
-class AuthorRepository:
+class AuthorRepository(AuthorAbstractRepository):
     def __init__(self):
         self.author_model = Author
 

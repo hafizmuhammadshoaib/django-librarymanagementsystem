@@ -1,9 +1,19 @@
+from abc import ABC, abstractmethod
 from book.models.book import Book
-from wireup import service
+from wireup import abstract, service
+
+
+
+
+@abstract
+class BookAbstractRepository(ABC):
+    @abstractmethod
+    def add_book(self, book_data):
+        raise NotImplementedError("This method should be overridden.")
 
 
 @service
-class BookRepository:
+class BookRepository(BookAbstractRepository):
     def __init__(self):
         self.book_model = Book
 
@@ -16,19 +26,3 @@ class BookRepository:
             author=book_data["author"],  # Author instance (not author_id)
             publisher=book_data["publisher"],  # Publisher instance (not publisher_id)
         )
-
-    def get_books(self):
-        return self.books
-
-    def find_book_by_title(self, title):
-        for book in self.books:
-            if book.title == title:
-                return book
-        return None
-
-    def remove_book(self, title):
-        book = self.find_book_by_title(title)
-        if book:
-            self.books.remove(book)
-            return True
-        return False
