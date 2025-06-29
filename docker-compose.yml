@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: lms-admin
       POSTGRES_PASSWORD: lmspassword123!
     ports:
-      - "5432:5432"
+      - "7002:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 

@@ -84,7 +84,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER', 'lms-admin'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'lmspassword123!'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': '5432',
+        'PORT': '7002',
     }
 }
 

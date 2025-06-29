@@ -47,12 +47,3 @@ class BookCrudService:
 
         except ObjectDoesNotExist as e:
             raise ValidationError(f"Invalid ID: {str(e)}")
-
-    def get_book(self, book_id):
-        return self.book_repository.get(book_id)
-
-    def update_book(self, book_id, book_data):
-        return self.book_repository.update(book_id, book_data)
-
-    def delete_book(self, book_id):
-        return self.book_repository.delete(book_id)

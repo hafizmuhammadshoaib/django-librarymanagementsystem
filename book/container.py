@@ -1,6 +1,3 @@
-from wireup import create_sync_container
-
-
 from book.repositories.author_repository import (
     AuthorAbstractRepository,
     AuthorRepository,
@@ -16,8 +13,7 @@ from book.services.book_crud_service import BookCrudService
 from book.services.genre_service import GenreService
 from book.services.publisher_crud_service import PublisherCRUDService
 
-container = create_sync_container(
-    services=[
+book_services =[
         PublisherCRUDService,
         AuthorCRUDService,
         GenreService,
@@ -30,5 +26,4 @@ container = create_sync_container(
         AuthorAbstractRepository,
         GenreAbstractRepository,
         PublisherAbstractRepository,
-    ],
-)
+]

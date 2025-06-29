@@ -3,8 +3,6 @@ from book.models.book import Book
 from wireup import abstract, service
 
 
-
-
 @abstract
 class BookAbstractRepository(ABC):
     @abstractmethod

@@ -2,7 +2,7 @@ from django.forms import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from book.container import container
+from librarymanagementsystem.container import global_container
 
 from book.serializes.book_create_serializer import BookCreateSerializer
 from book.services.book_crud_service import BookCrudService
@@ -20,7 +20,7 @@ class BookCreateAndGetView(APIView):
         try:
             book_create_serializer = BookCreateSerializer(data=request.data)
             book_create_serializer.is_valid(raise_exception=True)
-            book_service: BookCrudService = container.get(BookCrudService)
+            book_service: BookCrudService = global_container.get(BookCrudService)
             book_service.create_book(book_create_serializer.validated_data)
         except ValidationError as ve:
             return Response({"error": str(ve)}, status=400)
