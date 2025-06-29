@@ -1,5 +1,6 @@
 from django.urls import path
-from member.views.member_view import MemberBorrowingView, MemberActiveBooksView
+
+from member.views.member_view import MemberActiveBooksView, MemberBorrowingView
 
 urlpatterns = [
     path(

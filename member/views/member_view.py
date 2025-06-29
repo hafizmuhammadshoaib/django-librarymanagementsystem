@@ -1,10 +1,10 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from member.services.member_service import MemberService
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from librarymanagementsystem.container import container
+from member.services.member_service import MemberService
 
 
 class MemberBorrowingView(APIView):
@@ -33,7 +33,7 @@ class MemberBorrowingView(APIView):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to get member borrowing info: {str(e)}"},
+                {"error": f"Failed to get member borrowing info: {e!s}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
@@ -60,6 +60,6 @@ class MemberActiveBooksView(APIView):
 
         except Exception as e:
             return Response(
-                {"error": f"Failed to get member active books: {str(e)}"},
+                {"error": f"Failed to get member active books: {e!s}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )

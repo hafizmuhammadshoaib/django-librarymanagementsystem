@@ -1,8 +1,10 @@
 import uuid
 from datetime import datetime, timedelta
+
 from django.utils import timezone
-from book.models import Author, Publisher, Book, Genre
-from member.models import Member, BorrowingHistory
+
+from book.models import Author, Book, Genre, Publisher
+from member.models import BorrowingHistory, Member
 
 # Clear existing data (optional, for a clean start)
 Author.objects.all().delete()

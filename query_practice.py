@@ -1,8 +1,10 @@
-from book.models import Book, Author, Publisher, Genre
-from member.models import Member, BorrowingHistory
 import uuid
 from datetime import date, timedelta
+
 from django.db.models import Count
+
+from book.models import Author, Book, Genre, Publisher
+from member.models import BorrowingHistory
 
 # Fetch all books written by a specific author.
 author_id = uuid.UUID("45b8609c-6c66-43be-bc5c-c0086dd5d595")
@@ -24,8 +26,8 @@ if book:
         print(genre.name)
 
 # Find all books published by a specific publisher.
-publisher_id = uuid.UUID('27afbd41-8a6b-449e-9f0b-8a5ab4b86e99')
-books = Book.objects.filter(publisher_id=publisher_id).select_related('publisher')
+publisher_id = uuid.UUID("27afbd41-8a6b-449e-9f0b-8a5ab4b86e99")
+books = Book.objects.filter(publisher_id=publisher_id).select_related("publisher")
 for book in books:
     print(f"{book.publisher.name}, {book.title}")
 
@@ -70,9 +72,9 @@ for borrowing_history in borrowing_histories:
 # Find authors who have written books in a specific genre.
 genre_id = uuid.UUID("a887f76a-9e13-479d-a95c-ea279f75bc81")
 
-genres = Genre.objects.filter(id=genre_id).prefetch_related('books')
+genres = Genre.objects.filter(id=genre_id).prefetch_related("books")
 for genre in genres:
-    books = genre.books.all().select_related('author')
+    books = genre.books.all().select_related("author")
     for book in books:
         book_author = book.author
         print(f"genre {genre.name} book {book.title} author {book_author.name}")
@@ -87,15 +89,13 @@ borrowing_histories = BorrowingHistory.objects.filter(
     returning_date__isnull=True
 ).select_related("book")
 for borrowing_history in borrowing_histories:
-    print(f"book name{borrowing_history.book.title} book id {borrowing_history.book.id}")
+    print(
+        f"book name{borrowing_history.book.title} book id {borrowing_history.book.id}"
+    )
 
 
 # Retrieve the publisher with the most published books.
-publisher = (
-    Publisher.objects.annotate(count=Count("book"))
-    .order_by("-count")
-    .first()
-)
+publisher = Publisher.objects.annotate(count=Count("book")).order_by("-count").first()
 
 if publisher:
     print(f"{publisher.name} {publisher.count}")

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Member(models.Model):
     id = models.UUIDField(primary_key=True, editable=False)
     first_name = models.CharField(max_length=100)

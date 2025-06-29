@@ -4,30 +4,37 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('book', '0001_initial'),
+        ("book", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='author',
-            name='id',
-            field=models.UUIDField(auto_created=True, editable=False, primary_key=True, serialize=False),
+            model_name="author",
+            name="id",
+            field=models.UUIDField(
+                auto_created=True, editable=False, primary_key=True, serialize=False
+            ),
         ),
         migrations.AlterField(
-            model_name='book',
-            name='id',
-            field=models.UUIDField(auto_created=True, editable=False, primary_key=True, serialize=False),
+            model_name="book",
+            name="id",
+            field=models.UUIDField(
+                auto_created=True, editable=False, primary_key=True, serialize=False
+            ),
         ),
         migrations.AlterField(
-            model_name='genre',
-            name='id',
-            field=models.UUIDField(auto_created=True, editable=False, primary_key=True, serialize=False),
+            model_name="genre",
+            name="id",
+            field=models.UUIDField(
+                auto_created=True, editable=False, primary_key=True, serialize=False
+            ),
         ),
         migrations.AlterField(
-            model_name='publisher',
-            name='id',
-            field=models.UUIDField(auto_created=True, editable=False, primary_key=True, serialize=False),
+            model_name="publisher",
+            name="id",
+            field=models.UUIDField(
+                auto_created=True, editable=False, primary_key=True, serialize=False
+            ),
         ),
     ]

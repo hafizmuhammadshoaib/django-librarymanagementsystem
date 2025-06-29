@@ -1,8 +1,8 @@
+from unittest.mock import Mock
+
 import pytest
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ValidationError
-from unittest.mock import call
-from unittest.mock import Mock
 
 
 class TestBookCrudService:
@@ -40,7 +40,7 @@ class TestBookCrudService:
 
         with pytest.raises(ValidationError, match="Invalid ID: Author not found"):
             book_service.create_book(valid_book_data)
-    
+
     @pytest.mark.django_db
     def test_create_book_transaction_rollback(
         self, book_service, mock_dependencies, valid_book_data

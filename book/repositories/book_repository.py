@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 from book.models.book import Book
 
 

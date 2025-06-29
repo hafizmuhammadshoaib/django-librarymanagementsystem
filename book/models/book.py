@@ -1,5 +1,6 @@
-from django.db import models
 import uuid
+
+from django.db import models
 
 
 class Book(models.Model):
@@ -8,7 +9,7 @@ class Book(models.Model):
     description = models.TextField()
     published_date = models.DateField()
     isbn = models.CharField(max_length=13)
-    author = models.ForeignKey('Author', on_delete=models.CASCADE)
-    publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE)    
+    author = models.ForeignKey("Author", on_delete=models.CASCADE)
+    publisher = models.ForeignKey("Publisher", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

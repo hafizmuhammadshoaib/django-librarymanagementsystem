@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import Mock
+
+import pytest
+
 from book.services.book_crud_service import BookCrudService
 
 

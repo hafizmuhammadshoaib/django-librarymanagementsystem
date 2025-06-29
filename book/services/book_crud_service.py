@@ -44,4 +44,4 @@ class BookCrudService:
                 return book
 
         except ObjectDoesNotExist as e:
-            raise ValidationError(f"Invalid ID: {str(e)}")
+            raise ValidationError(f"Invalid ID: {e!s}")
