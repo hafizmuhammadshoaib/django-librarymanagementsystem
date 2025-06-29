@@ -1,9 +1,6 @@
-from wireup import service
-
 from book.repositories.genre_repository import GenreAbstractRepository
 
 
-@service
 class GenreService:
     def __init__(self, genre_repository: GenreAbstractRepository):
         self.genre_repository = genre_repository

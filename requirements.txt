@@ -1,3 +1,4 @@
 django==3.2.23
 django-extensions==3.2.3
 djangorestframework==3.12.4
+dependency-injector==4.48.1

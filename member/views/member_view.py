@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from member.services.member_service import MemberService
 
-from librarymanagementsystem.container import global_container
+from librarymanagementsystem.container import container
 
 
 class MemberBorrowingView(APIView):
@@ -13,8 +13,8 @@ class MemberBorrowingView(APIView):
     def get(self, request, member_id):
         """Get member's borrowing statistics and book list"""
         try:
-            # Use the global service container to get member service
-            member_service = global_container.get(MemberService)
+            # Use the container to get member service
+            member_service: MemberService = container.member_container.member_service()
 
             # Get borrowing statistics
             stats = member_service.get_member_borrowing_stats(member_id)
@@ -44,8 +44,8 @@ class MemberActiveBooksView(APIView):
     def get(self, request, member_id):
         """Get member's currently active book borrowings"""
         try:
-            # Use the global service container to get member service
-            member_service = global_container.get(MemberService)
+            # Use the container to get member service
+            member_service: MemberService = container.member_container.member_service()
 
             active_books = member_service.get_member_active_books(member_id)
 

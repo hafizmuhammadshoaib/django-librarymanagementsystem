@@ -1,11 +1,6 @@
-from wireup import service
-
-from book.repositories.publisher_repository import (
-    PublisherAbstractRepository,
-)
+from book.repositories.publisher_repository import PublisherAbstractRepository
 
 
-@service()
 class PublisherCRUDService:
     def __init__(self, publisher_repository: PublisherAbstractRepository):
         self.publisher_repository = publisher_repository

@@ -1,16 +1,13 @@
 from abc import ABC, abstractmethod
 from book.models.book import Book
-from wireup import abstract, service
 
 
-@abstract
 class BookAbstractRepository(ABC):
     @abstractmethod
     def add_book(self, book_data):
         raise NotImplementedError("This method should be overridden.")
 
 
-@service
 class BookRepository(BookAbstractRepository):
     def __init__(self):
         self.book_model = Book

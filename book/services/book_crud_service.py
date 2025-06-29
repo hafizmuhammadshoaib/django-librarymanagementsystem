@@ -1,7 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.forms import ValidationError
-from wireup import service
 
 from book.repositories.book_repository import BookAbstractRepository
 from book.services.author_crud_service import AuthorCRUDService
@@ -9,7 +8,6 @@ from book.services.genre_service import GenreService
 from book.services.publisher_crud_service import PublisherCRUDService
 
 
-@service
 class BookCrudService:
     def __init__(
         self,
