@@ -70,8 +70,9 @@ class CreateBookUseCase:
             description=book_data["description"],
             published_date=book_data["published_date"],
             isbn=book_data["isbn"],
-            author_id=author_id,
-            publisher_id=publisher_id,
+            author=author,
+            publisher=publisher,
+            genre=genre,
         )
 
         with transaction.atomic():

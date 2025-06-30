@@ -37,7 +37,7 @@ class BookCrudService:
         except (ValueError, RuntimeError) as e:
             raise ValidationError(e)
 
-    def get_book_by_id(self, book_id: str) -> Optional[Dict[str, Any]]:
+    def get_book_by_id(self, book_id: str) -> Optional[BookEntity]:
         """
         Get a book by ID using the GetBookUseCase.
 
@@ -52,7 +52,7 @@ class BookCrudService:
         except ValueError as e:
             raise ValidationError(str(e))
 
-    def get_all_books(self, include_details: bool = True) -> List[Dict[str, Any]]:
+    def get_all_books(self) -> List[BookEntity]:
         """
         Get all books using the GetBookUseCase.
 
@@ -62,73 +62,73 @@ class BookCrudService:
         Returns:
             List of book dictionaries
         """
-        return self.get_book_use_case.get_all_books(include_details)
+        return self.get_book_use_case.get_all_books()
 
-    def get_books_by_author(self, author_id: str) -> List[Dict[str, Any]]:
-        """
-        Get all books by a specific author using the GetBookUseCase.
+    # def get_books_by_author(self, author_id: str) -> List[Dict[str, Any]]:
+    #     """
+    #     Get all books by a specific author using the GetBookUseCase.
 
-        Args:
-            author_id: The author ID as string
+    #     Args:
+    #         author_id: The author ID as string
 
-        Returns:
-            List of book dictionaries
-        """
-        try:
-            return self.get_book_use_case.get_books_by_author(author_id)
-        except (ValueError, RuntimeError) as e:
-            raise ValidationError(str(e))
+    #     Returns:
+    #         List of book dictionaries
+    #     """
+    #     try:
+    #         return self.get_book_use_case.get_books_by_author(author_id)
+    #     except (ValueError, RuntimeError) as e:
+    #         raise ValidationError(str(e))
 
-    def get_books_by_publisher(self, publisher_id: str) -> List[Dict[str, Any]]:
-        """
-        Get all books by a specific publisher using the GetBookUseCase.
+    # def get_books_by_publisher(self, publisher_id: str) -> List[Dict[str, Any]]:
+    #     """
+    #     Get all books by a specific publisher using the GetBookUseCase.
 
-        Args:
-            publisher_id: The publisher ID as string
+    #     Args:
+    #         publisher_id: The publisher ID as string
 
-        Returns:
-            List of book dictionaries
-        """
-        try:
-            return self.get_book_use_case.get_books_by_publisher(publisher_id)
-        except (ValueError, RuntimeError) as e:
-            raise ValidationError(str(e))
+    #     Returns:
+    #         List of book dictionaries
+    #     """
+    #     try:
+    #         return self.get_book_use_case.get_books_by_publisher(publisher_id)
+    #     except (ValueError, RuntimeError) as e:
+    #         raise ValidationError(str(e))
 
-    def search_books_by_title(self, title: str) -> List[Dict[str, Any]]:
-        """
-        Search books by title using the GetBookUseCase.
+    # def search_books_by_title(self, title: str) -> List[Dict[str, Any]]:
+    #     """
+    #     Search books by title using the GetBookUseCase.
 
-        Args:
-            title: The title to search for
+    #     Args:
+    #         title: The title to search for
 
-        Returns:
-            List of matching book dictionaries
-        """
-        try:
-            return self.get_book_use_case.search_books_by_title(title)
-        except ValueError as e:
-            raise ValidationError(str(e))
+    #     Returns:
+    #         List of matching book dictionaries
+    #     """
+    #     try:
+    #         return self.get_book_use_case.search_books_by_title(title)
+    #     except ValueError as e:
+    #         raise ValidationError(str(e))
 
-    def get_classic_books(self) -> List[Dict[str, Any]]:
-        """
-        Get all classic books using the GetBookUseCase.
+    # def get_classic_books(self) -> List[Dict[str, Any]]:
+    #     """
+    #     Get all classic books using the GetBookUseCase.
 
-        Returns:
-            List of classic book dictionaries
-        """
-        return self.get_book_use_case.get_classic_books()
+    #     Returns:
+    #         List of classic book dictionaries
+    #     """
+    #     return self.get_book_use_case.get_classic_books()
 
-    def get_books_by_genre(self, genre_id: str) -> List[Dict[str, Any]]:
-        """
-        Get all books in a specific genre using the GetBookUseCase.
+    # def get_books_by_genre(self, genre_id: str) -> List[Dict[str, Any]]:
+    #     """
+    #     Get all books in a specific genre using the GetBookUseCase.
 
-        Args:
-            genre_id: The genre ID as string
+    #     Args:
+    #         genre_id: The genre ID as string
 
-        Returns:
-            List of book dictionaries
-        """
-        try:
-            return self.get_book_use_case.get_books_by_genre(genre_id)
-        except (ValueError, RuntimeError) as e:
-            raise ValidationError(str(e))
+    #     Returns:
+    #         List of book dictionaries
+    #     """
+    #     try:
+    #         return self.get_book_use_case.get_books_by_genre(genre_id)
+    #     except (ValueError, RuntimeError) as e:
+    #         raise ValidationError(str(e))

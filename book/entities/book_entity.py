@@ -3,6 +3,10 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from typing import List, Optional
 
+from book.entities.author_entity import AuthorEntity
+from book.entities.genre_entity import GenreEntity
+from book.entities.publisher_entity import PublisherEntity
+
 
 @dataclass
 class BookEntity:
@@ -12,12 +16,12 @@ class BookEntity:
     description: str
     published_date: date
     isbn: str
-    author_id: uuid.UUID
-    publisher_id: uuid.UUID
+    author: Optional[AuthorEntity] = None
+    publisher: Optional[PublisherEntity] = None
     id: uuid.UUID = field(default_factory=uuid.uuid4)
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
-    genre_id: uuid.UUID | None = None
+    genre: Optional[GenreEntity] = None
 
     def __post_init__(self):
         """Validate business rules after initialization."""
@@ -54,9 +58,6 @@ class BookEntity:
 
         if len(clean_isbn) not in [10, 13]:
             raise ValueError("ISBN must be either 10 or 13 digits")
-
-        if not clean_isbn.isdigit():
-            raise ValueError("ISBN must contain only digits")
 
     def _validate_published_date(self):
         """Validate published date business rules."""
@@ -127,9 +128,9 @@ class BookEntity:
             "description": self.description,
             "published_date": self.published_date.isoformat(),
             "isbn": self.isbn,
-            "author_id": str(self.author_id),
-            "publisher_id": str(self.publisher_id),
+            "author_id": str(self.author.id) if self.author else None,
+            "publisher_id": str(self.publisher.id) if self.publisher else None,
             "created_at": self.created_at.isoformat(),
             "updated_at": self.updated_at.isoformat(),
-            "genre_id": str(self.genre_id),
+            "genre_id": str(self.genre.id) if self.genre else None,
         }

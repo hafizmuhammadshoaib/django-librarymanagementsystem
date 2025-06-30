@@ -6,7 +6,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from book.serializes.book_create_serializer import BookCreateSerializer
+from book.serializes.book_create_serializer import (
+    BookCreateSerializer,
+    BookResponseSerializer,
+    EnrichedBookResponseSerializer,
+)
 from book.services.book_crud_service import BookCrudService
 from librarymanagementsystem.container import container
 
@@ -14,9 +18,48 @@ from librarymanagementsystem.container import container
 class BookCreateAndGetView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request):
-        # Return empty response for now - can be implemented later
-        return Response({"message": "GET method not implemented yet"}, status=200)
+    def get(self, request, book_id=None):
+        """
+        GET method to retrieve books.
+
+        Args:
+            request: The HTTP request
+            book_id: Optional book ID from URL parameter
+
+        Returns:
+            - If book_id provided: Single book with enriched data
+            - If no book_id: List of all books
+        """
+        try:
+            book_service: BookCrudService = container.book_container.book_service()
+
+            if book_id is not None:
+                # Get specific book by ID
+                try:
+                    book_data = book_service.get_book_by_id(str(book_id))
+                except (ValueError, serializers.ValidationError) as ve:
+                    # Handle invalid UUID or validation error
+                    return Response({"error": str(ve)}, status=400)
+                if not book_data:
+                    return Response(
+                        {"error": f"Book with ID {book_id} not found"}, status=404
+                    )
+
+                # Serialize enriched book data
+                response_serializer = EnrichedBookResponseSerializer(book_data)
+                return Response(response_serializer.data, status=200)
+            else:
+                # Get all books (no validation or ISBN required)
+                books_data = book_service.get_all_books()
+
+                # Serialize list of enriched book data
+                response_serializer = EnrichedBookResponseSerializer(
+                    books_data, many=True
+                )
+                return Response(response_serializer.data, status=200)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
     def post(self, request):
         # Logic to handle POST request for creating a book
@@ -35,16 +78,7 @@ class BookCreateAndGetView(APIView):
             return Response({"error": str(ve)}, status=400)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-        return Response(
-            {
-                "id": created_book.id,
-                "title": created_book.title,
-                "description": created_book.description,
-                "published_date": created_book.published_date,
-                "isbn": created_book.isbn,
-                "author_id": created_book.author_id,
-                "publisher_id": created_book.publisher_id,
-                "genre_id": created_book.genre_id,
-            },
-            status=201,
-        )
+
+        # Serialize the response using BookResponseSerializer
+        response_serializer = BookResponseSerializer(created_book.to_dict())
+        return Response(response_serializer.data, status=201)
