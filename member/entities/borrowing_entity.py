@@ -16,9 +16,16 @@ class BorrowingEntity:
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
 
-    def __post_init__(self):
-        """Validate business rules after initialization."""
-        self._validate_dates()
+    @classmethod
+    def create(
+        cls, book_id: uuid.UUID, member_id: uuid.UUID, borrowing_date: date
+    ) -> "BorrowingEntity":
+        """Create a borrowing entity from a dictionary."""
+        instance = cls(
+            book_id=book_id, member_id=member_id, borrowing_date=borrowing_date
+        )
+        instance._validate_dates()
+        return instance
 
     def _validate_dates(self):
         """Validate borrowing and returning date business rules."""

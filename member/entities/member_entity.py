@@ -16,10 +16,17 @@ class MemberEntity:
     updated_at: datetime = field(default_factory=datetime.now)
     borrowing_ids: List[uuid.UUID] = field(default_factory=list)
 
-    def __post_init__(self):
-        """Validate business rules after initialization."""
-        self._validate_names()
-        self._validate_birth_date()
+    @classmethod
+    def create(
+        cls, first_name: str, last_name: str, birth_date: date
+    ) -> "MemberEntity":
+        """Create a member entity from a dictionary."""
+        instance = cls(
+            first_name=first_name, last_name=last_name, birth_date=birth_date
+        )
+        instance._validate_names()
+        instance._validate_birth_date()
+        return instance
 
     def _validate_names(self):
         """Validate member name business rules."""

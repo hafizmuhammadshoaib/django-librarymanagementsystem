@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from librarymanagementsystem.container import container
+from member.serializers import (
+    MemberActiveBooksResponseSerializer,
+    MemberBorrowingResponseSerializer,
+)
 from member.services.member_service import MemberService
 
 
@@ -22,14 +26,12 @@ class MemberBorrowingView(APIView):
             # Get borrowed books list
             borrowed_books = member_service.get_member_borrowed_books(member_id)
 
-            return Response(
-                {
-                    "member_id": member_id,
-                    "borrowing_stats": stats,
-                    "borrowed_books": borrowed_books,
-                },
-                status=status.HTTP_200_OK,
+            # Create and validate the response using serializer
+            serializer = MemberBorrowingResponseSerializer.create_response(
+                member_id, stats, borrowed_books
             )
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(
@@ -49,14 +51,12 @@ class MemberActiveBooksView(APIView):
 
             active_books = member_service.get_member_active_books(member_id)
 
-            return Response(
-                {
-                    "member_id": member_id,
-                    "active_books": active_books,
-                    "count": len(active_books),
-                },
-                status=status.HTTP_200_OK,
+            # Create and validate the response using serializer
+            serializer = MemberActiveBooksResponseSerializer.create_response(
+                member_id, active_books
             )
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(

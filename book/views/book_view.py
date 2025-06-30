@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from book.serializes.book_create_serializer import (
+from book.serializes import (
     BookCreateSerializer,
     BookResponseSerializer,
     EnrichedBookResponseSerializer,

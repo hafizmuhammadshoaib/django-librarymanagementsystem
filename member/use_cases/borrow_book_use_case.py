@@ -111,7 +111,7 @@ class BorrowBookUseCase:
         borrowing_date = borrowing_data.get("borrowing_date", date.today())
 
         # Create borrowing entity
-        borrowing_entity = BorrowingEntity(
+        borrowing_entity = BorrowingEntity.create(
             book_id=book_id,
             member_id=member_id,
             borrowing_date=borrowing_date,
