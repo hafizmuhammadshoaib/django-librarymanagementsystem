@@ -1,7 +1,7 @@
 import uuid
 from dataclasses import dataclass, field
 from datetime import date, datetime
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from book.entities.author_entity import AuthorEntity
 from book.entities.genre_entity import GenreEntity
@@ -23,12 +23,32 @@ class BookEntity:
     updated_at: datetime = field(default_factory=datetime.now)
     genre: Optional[GenreEntity] = None
 
-    def __post_init__(self):
-        """Validate business rules after initialization."""
-        self._validate_title()
-        self._validate_isbn()
-        self._validate_published_date()
-        self._validate_description()
+    @classmethod
+    def create(
+        cls,
+        title: str,
+        description: str,
+        published_date: date,
+        isbn: str,
+        author: Optional[AuthorEntity] = None,
+        publisher: Optional[PublisherEntity] = None,
+        genre: Optional[GenreEntity] = None,
+    ) -> "BookEntity":
+        """Create a book entity from a dictionary."""
+        instance = cls(
+            title=title,
+            description=description,
+            published_date=published_date,
+            isbn=isbn,
+            author=author,
+            publisher=publisher,
+            genre=genre,
+        )
+        instance._validate_title()
+        instance._validate_isbn()
+        instance._validate_published_date()
+        instance._validate_description()
+        return instance
 
     def _validate_title(self):
         """Validate book title business rules."""
@@ -54,7 +74,10 @@ class BookEntity:
             raise ValueError("ISBN cannot be empty")
 
         # Remove hyphens and spaces for validation
-        clean_isbn = self.isbn
+        clean_isbn = self.isbn.replace("-", "").replace(" ", "")
+
+        if not clean_isbn.isdigit():
+            raise ValueError("ISBN must contain only digits")
 
         if len(clean_isbn) not in [10, 13]:
             raise ValueError("ISBN must be either 10 or 13 digits")

@@ -65,7 +65,7 @@ class CreateBookUseCase:
         )
 
         # Create book entity
-        book_entity = BookEntity(
+        book_entity = BookEntity.create(
             title=book_data["title"],
             description=book_data["description"],
             published_date=book_data["published_date"],
