@@ -1,0 +1,1 @@
+# Book entities package

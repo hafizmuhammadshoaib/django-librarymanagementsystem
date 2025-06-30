@@ -18,4 +18,17 @@ class Container(containers.DeclarativeContainer):
 # Create global container instance
 container = Container()
 
+# Wire up cross-container dependencies
+container.wire(
+    modules=[
+        "book.views.book_view",
+        "member.views.member_view",
+    ]
+)
+
+# Inject the book repository into the member container
+container.member_container.book_repository.override(
+    container.book_container.book_repository
+)
+
 # Book app services
