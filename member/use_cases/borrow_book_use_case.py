@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 
 from book.entities.book_entity import BookEntity
 from book.repositories.book_repository import BookAbstractRepository
+from book.services.book_crud_service import BookCrudService
 from member.entities.borrowing_entity import BorrowingEntity
 from member.entities.member_entity import MemberEntity
 from member.repositories.borrowing_repository import BorrowingAbstractRepository
@@ -64,11 +65,11 @@ class BorrowBookUseCase:
         self,
         member_repository: MemberAbstractRepository,
         borrowing_repository: BorrowingAbstractRepository,
-        book_repository: BookAbstractRepository,
+        book_crud_service: BookCrudService,
     ):
         self.member_repository = member_repository
         self.borrowing_repository = borrowing_repository
-        self.book_repository = book_repository
+        self.book_crud_service = book_crud_service
 
     def execute(self, borrowing_data: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -92,7 +93,7 @@ class BorrowBookUseCase:
 
         # Parse UUIDs
         member_id = uuid.UUID(borrowing_data["member_id"])
-        book_id = uuid.UUID(borrowing_data["book_id"])
+        book_id = borrowing_data["book_id"]
 
         # Get member entity
         member = self.member_repository.get_member_by_id(member_id)
@@ -100,7 +101,7 @@ class BorrowBookUseCase:
             raise RuntimeError(f"Member with ID {member_id} not found")
 
         # Get book entity
-        book = self.book_repository.get_book_by_id(book_id)
+        book = self.book_crud_service.get_book_by_id(book_id)
         if not book:
             raise RuntimeError(f"Book with ID {book_id} not found")
 

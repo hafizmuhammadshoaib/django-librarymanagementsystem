@@ -26,9 +26,9 @@ container.wire(
     ]
 )
 
-# Inject the book repository into the member container
-container.member_container.book_repository.override(
-    container.book_container.book_repository
+# Inject the book service into the member container
+container.member_container.book_crud_service.override(
+    container.book_container.book_service
 )
 
 # Book app services

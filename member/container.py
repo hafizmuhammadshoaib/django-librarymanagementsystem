@@ -14,14 +14,14 @@ class MemberContainer(containers.DeclarativeContainer):
     member_repository = providers.Singleton(MemberRepository)
 
     # Book repository will be injected from the main container
-    book_repository = providers.Dependency()
+    book_crud_service = providers.Dependency()
 
     # Use Cases
     borrow_book_use_case = providers.Singleton(
         BorrowBookUseCase,
         member_repository=member_repository,
         borrowing_repository=borrowing_repository,
-        book_repository=book_repository,
+        book_crud_service=book_crud_service,
     )
 
     # Services
