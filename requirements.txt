@@ -1,5 +1,28 @@
+# Django and Core Dependencies
 django==3.2.23
 django-extensions==3.2.3
 djangorestframework==3.12.4
 dependency-injector==4.48.1
+
+# Code Quality and Formatting
 ruff>=0.1.0
+
+# Testing Dependencies
+pytest>=7.0.0
+pytest-django>=4.4.0
+pytest-cov>=3.0.0
+pytest-mock>=3.11.1
+pytest-sugar>=0.9.4
+pytest-html>=3.1.1
+pytest-metadata>=3.1.1
+pytest-env>=0.6.2
+pytest-lazy-fixture>=0.6.3
+pytest-repeat>=0.9.1
+
+# Data Generation for Testing
+Faker==19.13.0
+factory-boy>=2.12.0
+
+# Additional Utilities
+python-dateutil>=2.4
+six>=1.5

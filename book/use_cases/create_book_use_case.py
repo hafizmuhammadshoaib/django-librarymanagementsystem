@@ -1,8 +1,11 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from django.db import transaction
 
+from book.entities.author_entity import AuthorEntity
 from book.entities.book_entity import BookEntity
+from book.entities.genre_entity import GenreEntity
+from book.entities.publisher_entity import PublisherEntity
 from book.repositories.author_repository import AuthorAbstractRepository
 from book.repositories.book_repository import BookAbstractRepository
 from book.repositories.genre_repository import GenreAbstractRepository
@@ -39,24 +42,27 @@ class CreateBookUseCase:
             RuntimeError: If required entities don't exist
         """
         # Validate input data
-        self._validate_input_data(book_data)
 
         # Check if book with same ISBN already exists
-        existing_book = self.book_repository.get_book_by_isbn(book_data["isbn"])
-        if existing_book:
-            raise ValueError(f"Book with ISBN {book_data['isbn']} already exists")
+        isbn = book_data["isbn"]
+        existing_book = self.book_repository.get_book_by_isbn(isbn)
 
         # Get author entity
         author_id = book_data["author_id"]
         author = self.author_repository.get_author_entity_by_id(author_id)
-        if not author:
-            raise RuntimeError(f"Author with ID {author_id} not found")
-
         # Get publisher entity
         publisher_id = book_data["publisher_id"]
         publisher = self.publisher_repository.get_publisher_entity_by_id(publisher_id)
-        if not publisher:
-            raise RuntimeError(f"Publisher with ID {publisher_id} not found")
+        # Get genre entity
+        genre_id = book_data["genre_id"]
+        genre = self.genre_repository.get_genre_entity_by_id(genre_id)
+
+        self._validate_input_data(
+            book=existing_book,
+            author=author,
+            publisher=publisher,
+            genre=genre,
+        )
 
         # Create book entity
         book_entity = BookEntity(
@@ -68,11 +74,6 @@ class CreateBookUseCase:
             publisher_id=publisher_id,
         )
 
-        genre_id = book_data["genre_id"]
-        genre = self.genre_repository.get_genre_entity_by_id(genre_id)
-        if not genre:
-            raise RuntimeError(f"Genre with ID {genre_id} not found")
-
         with transaction.atomic():
             saved_book = self.book_repository.save_book(book_entity)
             genre_model = self.genre_repository.entity_to_model(genre)
@@ -82,40 +83,19 @@ class CreateBookUseCase:
 
         return saved_book
 
-    def _validate_input_data(self, book_data: Dict[str, Any]):
+    def _validate_input_data(
+        self,
+        book: Optional[BookEntity],
+        author: Optional[AuthorEntity],
+        publisher: Optional[PublisherEntity],
+        genre: Optional[GenreEntity],
+    ):
         """Validate the input data for creating a book."""
-        required_fields = [
-            "title",
-            "description",
-            "published_date",
-            "isbn",
-            "author_id",
-            "publisher_id",
-        ]
-
-        for field in required_fields:
-            if field not in book_data:
-                raise ValueError(f"Missing required field: {field}")
-
-            if not book_data[field]:
-                raise ValueError(f"Field {field} cannot be empty")
-
-        # Debug: Check isbn field type
-        if "isbn" in book_data:
-            isbn_value = book_data["isbn"]
-            if not isinstance(isbn_value, str):
-                raise ValueError(
-                    f"ISBN must be a string, got {type(isbn_value)}: {isbn_value}"
-                )
-
-        # Validate UUID fields
-        # try:
-        #     uuid.UUID(book_data["author_id"])
-        #     uuid.UUID(book_data["publisher_id"])
-        # except ValueError:
-        #     raise ValueError("Invalid UUID format for author_id or publisher_id")
-
-        # Validate genre_ids if provided
-        if "genre_ids" in book_data:
-            if not isinstance(book_data["genre_ids"], list):
-                raise ValueError("genre_ids must be a list")
+        if book:
+            raise ValueError(f"Book with ISBN {book.isbn} already exists")
+        if not author:
+            raise RuntimeError("Author not found")
+        if not publisher:
+            raise RuntimeError("Publisher not found")
+        if not genre:
+            raise RuntimeError("Genre not found")

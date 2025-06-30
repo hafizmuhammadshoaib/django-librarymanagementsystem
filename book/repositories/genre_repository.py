@@ -28,7 +28,7 @@ class GenreAbstractRepository(ABC):
         raise NotImplementedError("This method should be overridden.")
 
     @abstractmethod
-    def entity_to_model(self, entity: GenreEntity) -> Genre:
+    def entity_to_model(self, entity: Optional[GenreEntity]) -> Genre:
         """Convert entity to model."""
         raise NotImplementedError("This method should be overridden.")
 

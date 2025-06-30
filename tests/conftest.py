@@ -9,10 +9,8 @@ from book.services.book_crud_service import BookCrudService
 def mock_dependencies():
     """Fixture providing mocked dependencies for BookCrudService"""
     return {
-        "book_repository": Mock(),
-        "genre_service": Mock(),
-        "author_service": Mock(),
-        "publisher_service": Mock(),
+        "create_book_use_case": Mock(),
+        "get_book_use_case": Mock(),
     }
 
 
